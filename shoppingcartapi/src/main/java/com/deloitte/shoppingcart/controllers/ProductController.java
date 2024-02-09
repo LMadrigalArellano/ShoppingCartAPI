@@ -87,13 +87,14 @@ public class ProductController {
 	public ResponseEntity<String> saveProduct(@RequestBody Product product) {
 		
 		ResponseEntity<String> result;
-		Optional<Product> productInDB = getProductById(product.getProductId());
+		Optional<Product> productInDB = productRepository.findOneByName(product.getName());
 		
 		if(productInDB.isPresent()) {
 			Product existingProduct = productInDB.get();
 			existingProduct.setTotalProductsInventory(existingProduct.getTotalProductsInventory() + 1);
 			productRepository.save(existingProduct);
 			result = new ResponseEntity<>("PRODUCT \""+product.getName()+"\" TOTAL INVENTORY INCREASED BY 1", HttpStatus.OK);	
+			
 		} else {
 			productRepository.save(product);
 			result = new ResponseEntity<>("PRODUCT \""+product.getName()+"\" ADDED", HttpStatus.CREATED);	

@@ -2,7 +2,10 @@ package com.deloitte.shoppingcart.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -11,6 +14,7 @@ public class Product {
 	
 	@Id
 	@Column(name = "PRODUCT_ID", nullable = false, precision = 10)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int productId;
 	
 	@Column(name = "NAME", nullable = false, length = 100)
@@ -19,6 +23,7 @@ public class Product {
 	@Column(name = "PRICE", nullable = false, precision = 10)
 	private double price;
 	
+	@Lob
 	private byte[] image;
 	
 	@Column(name = "DESCRIPTION", length = 200)
