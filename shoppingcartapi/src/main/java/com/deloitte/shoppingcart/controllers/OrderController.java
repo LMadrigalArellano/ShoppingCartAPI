@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deloitte.shoppingcart.model.Order;
@@ -55,9 +56,9 @@ public class OrderController {
 	
 	
 	/////////////////////////////////---START POST OPERATIONS---/////////////////////////////////
-
-	@PostMapping("/orders")
-	public ResponseEntity<String> buySingleProductById(@RequestBody Order order) {
+	
+	@PostMapping({"/orders/newOrder", "/orders/newOrder?productAmount={productAmount}"})
+	public ResponseEntity<String> buyMultipleProductsById(@RequestBody Order order, @RequestParam(defaultValue = "1", name = "productAmount") int productAmount) {
 		
 		int productId = order.getProductId();
 		ResponseEntity<String> result = new ResponseEntity<>("PRODUCT WITH ID \""+productId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);
@@ -68,15 +69,14 @@ public class OrderController {
 		if(productExists) {
 			Product existingProduct = productInDB.get();
 			
-			if(existingProduct.getTotalProductsInventory() > 0) {
-				existingProduct.setTotalProductsInventory(existingProduct.getTotalProductsInventory() - 1);
-				productRepository.save(existingProduct);
-				orderRepository.save(order);
-				result = new ResponseEntity<>("PRODUCT WITH ID \""+existingProduct.getName()+"\" ACQUIRED", HttpStatus.OK);;
+			if(productAmount > existingProduct.getTotalProductsInventory()) {
+				result = new ResponseEntity<>("THERE IS NO INVENTORY FOR THE PRODUCT: \""+existingProduct.getName() + "\" \nIN INVENTORY: "+existingProduct.getTotalProductsInventory() + " \nREQUESTED: " + productAmount, HttpStatus.OK);
 
 			} else {
-				result = new ResponseEntity<>("THERE IS NO INVENTORY FOR THE PRODUCT: \""+existingProduct.getName()+"\"", HttpStatus.OK);;
-
+				existingProduct.setTotalProductsInventory(existingProduct.getTotalProductsInventory() - productAmount);
+				productRepository.save(existingProduct);
+				orderRepository.save(order);
+				result = new ResponseEntity<>("\""+existingProduct.getName()+"\" ACQUIRED" + "\nAMOUNT: "+productAmount, HttpStatus.OK);
 			}			
 			
 		}
