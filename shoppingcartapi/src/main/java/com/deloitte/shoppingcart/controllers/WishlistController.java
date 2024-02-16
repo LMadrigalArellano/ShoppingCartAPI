@@ -36,7 +36,7 @@ public class WishlistController {
 	}
 	
 	@GetMapping("/wishlists/user/{userId}")
-	public List<Wishlist> getWishlistByUserId(@PathVariable("userId") int userId){
+	public List<Wishlist> getWishlistByUserId(@PathVariable("userId") Long userId){
 		return wishlistRepository.findAllByUserId(userId);
 	}
 	
@@ -54,7 +54,7 @@ public class WishlistController {
 	/////////////////////////////////---START DELETE OPERATIONS---/////////////////////////////////
 		
 	@DeleteMapping("/wishlists/product/{productId}")
-	public void saveProductToWishList(@PathVariable("productId") int productId) {
+	public void saveProductToWishList(@PathVariable("productId") Long productId) {
 		wishlistRepository.deleteProductFromWishlist(productId);
 	}
 	

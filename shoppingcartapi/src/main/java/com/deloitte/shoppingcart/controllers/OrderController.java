@@ -47,7 +47,7 @@ public class OrderController {
 	}
 	
 	@GetMapping("/orders/user/{userId}")
-	public List<Order> getAllOrdersByUserId(@PathVariable("userId") int userId){
+	public List<Order> getAllOrdersByUserId(@PathVariable("userId") Long userId){
 		return orderRepository.findAllByUserId(userId);
 	}
 	
@@ -60,7 +60,7 @@ public class OrderController {
 	@PostMapping({"/orders/newOrder", "/orders/newOrder?productAmount={productAmount}"})
 	public ResponseEntity<String> buyMultipleProductsById(@RequestBody Order order, @RequestParam(defaultValue = "1", name = "productAmount") int productAmount) {
 		
-		int productId = order.getProductId();
+		Long productId = order.getProductId();
 		ResponseEntity<String> result = new ResponseEntity<>("PRODUCT WITH ID \""+productId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);
 		
 		Optional<Product> productInDB = productRepository.findById(order.getProductId());
@@ -92,7 +92,7 @@ public class OrderController {
 	/////////////////////////////////---START DELETE OPERATIONS---/////////////////////////////////
 
 	@DeleteMapping("/orders/delete/{orderId}")
-	public ResponseEntity<String> deleteOrderById(@PathVariable("orderId") int orderId){
+	public ResponseEntity<String> deleteOrderById(@PathVariable("orderId") Long orderId){
 		
 		ResponseEntity<String> result = new ResponseEntity<>("USER WITH ID \""+orderId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);	
 
@@ -114,7 +114,7 @@ public class OrderController {
 	}
 	
 	@DeleteMapping("orders/delete/user/{userId}")
-	public ResponseEntity<String> deleteOrdersByUserId(@PathVariable("userId") int userId){
+	public ResponseEntity<String> deleteOrdersByUserId(@PathVariable("userId") Long userId){
 		
 		ResponseEntity<String> result = new ResponseEntity<>("USER WITH ID \""+userId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);	
 

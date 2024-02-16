@@ -1,9 +1,10 @@
 package com.deloitte.shoppingcart.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
@@ -14,8 +15,9 @@ public class Product {
 	
 	@Id
 	@Column(name = "PRODUCT_ID", nullable = false, precision = 10)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int productId;
+	@GenericGenerator(name="random_id", strategy = "com.deloitte.shoppingcart.CustomRandomIDGenerator")
+	@GeneratedValue(generator = "random_id")
+	private Long productId;
 	
 	@Column(name = "NAME", nullable = false, length = 100)
 	private String name;
@@ -35,11 +37,11 @@ public class Product {
 	@Column(name = "STATUS", nullable = false)
 	private boolean status;
 
-	public int getProductId() {
+	public Long getProductId() {
 		return productId;
 	}
 
-	public void setProductId(int productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 

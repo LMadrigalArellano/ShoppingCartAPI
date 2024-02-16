@@ -40,7 +40,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/products/{productId}")
-	public Optional<Product> getProductById(@PathVariable("productId") int productId){
+	public Optional<Product> getProductById(@PathVariable("productId") Long productId){
 		return productRepository.findById(productId);
 	}
 	
@@ -57,22 +57,9 @@ public class ProductController {
 	/////////////////////////////////---END GET OPERATIONS---/////////////////////////////////
 
 	/////////////////////////////////---START PATCH OPERATIONS---/////////////////////////////////
-	
-//	@PatchMapping("/products/buy/{productId}")
-//	public void buyProductById(@PathVariable("productId") int productId, @RequestBody Order order) {
-//		Optional<Product> productInDB = getProductById(productId);
-//		
-//		if(productInDB.isPresent()) {
-//			Product existingProduct = productInDB.get();
-//			existingProduct.setTotalProductsInventory(existingProduct.getTotalProductsInventory() - 1);
-//			productRepository.save(existingProduct);
-//			
-//			order
-//		}
-//	}
 
 	@PatchMapping("/products/delete/{productId}")
-	public ResponseEntity<String> deleteProduct(@PathVariable("productId") int productId){
+	public ResponseEntity<String> deleteProduct(@PathVariable("productId") Long productId){
 		ResponseEntity<String> result =  new ResponseEntity<>("PRODUCT WITH ID \""+productId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);;
 		Optional<Product> productInDB = getProductById(productId);
 		
@@ -88,7 +75,7 @@ public class ProductController {
 	
 	@PatchMapping("/products/{productId}")
 	public ResponseEntity<String> updateProduct(
-			@PathVariable("productId") int productId, 
+			@PathVariable("productId") Long productId, 
 			@RequestBody Product product
 	){
 		ResponseEntity<String> result =  new ResponseEntity<>("PRODUCT WITH ID \""+productId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);;

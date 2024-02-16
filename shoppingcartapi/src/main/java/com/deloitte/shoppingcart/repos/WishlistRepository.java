@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.deloitte.shoppingcart.model.Wishlist;
 
 @Repository
-public interface WishlistRepository extends JpaRepository<Wishlist, Integer> {
+public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
 	
-	List<Wishlist> findAllByUserId(int userId);
+	List<Wishlist> findAllByUserId(Long userId);
 	
 	@Modifying
 	@Transactional
 	@Query("DELETE FROM Wishlist WHERE productId = :productId")
-	void deleteProductFromWishlist(@Param("productId") int productId);
+	void deleteProductFromWishlist(@Param("productId") Long productId);
 
 }

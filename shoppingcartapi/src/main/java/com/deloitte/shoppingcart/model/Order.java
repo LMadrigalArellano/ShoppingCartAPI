@@ -2,10 +2,11 @@ package com.deloitte.shoppingcart.model;
 
 import java.sql.Timestamp;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -15,23 +16,24 @@ public class Order {
 	
 	@Id
 	@Column(name = "ORDER_ID", nullable = false, precision = 10)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int orderId;
+	@GenericGenerator(name="random_id", strategy = "com.deloitte.shoppingcart.CustomRandomIDGenerator")
+	@GeneratedValue(generator = "random_id")
+	private Long orderId;
 	
 	@Column(name = "ORDER_DATE", nullable = false)
 	private Timestamp orderDate;
 	
 	@Column(name = "USER_ID", precision = 10)
-	private int userId;
+	private Long userId;
 	
 	@Column(name = "PRODUCT_ID", precision = 10)
-	private int productId;
+	private Long productId;
 	
-	public int getOrderId() {
+	public Long getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(int orderId) {
+	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
 
@@ -43,19 +45,19 @@ public class Order {
 		this.orderDate = orderDate;
 	}
 
-	public int getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
-	public int getProductId() {
+	public Long getProductId() {
 		return productId;
 	}
 
-	public void setProductId(int productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 	

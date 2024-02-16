@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.deloitte.shoppingcart.model.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	@Query("FROM Product WHERE name = :name")
 	Optional<Product> findOneByName(@Param("name") String name);

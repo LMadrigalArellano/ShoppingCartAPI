@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.deloitte.shoppingcart.model.Order;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Integer> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
-	List<Order> findAllByUserId(int userId);
+	List<Order> findAllByUserId(Long userId);
 
 }

@@ -34,7 +34,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/users/{userId}")
-	public Optional<User> getUserById(@PathVariable("userId") int userId) {
+	public Optional<User> getUserById(@PathVariable("userId") Long userId) {
 		return userRepository.findById(userId);
 	}
 	
@@ -55,7 +55,7 @@ public class UserController {
 
 	@PatchMapping("users/{userId}")
 	public ResponseEntity<String> updateUser(
-			@PathVariable("userId") int userId,
+			@PathVariable("userId") Long userId,
 			@RequestBody User newUser
 	) {
 		ResponseEntity<String> result = new ResponseEntity<>("USER WITH ID \""+userId+"\" UPDATED", HttpStatus.OK);
@@ -117,7 +117,7 @@ public class UserController {
 	/////////////////////////////////---START DELETE OPERATIONS---/////////////////////////////////
 
 	@DeleteMapping("/users/delete/{userId}")
-	public ResponseEntity<String> deleteUserAndClearOrderHistory(@PathVariable("userId") int userId){
+	public ResponseEntity<String> deleteUserAndClearOrderHistory(@PathVariable("userId") Long userId){
 		
 		ResponseEntity<String> result = new ResponseEntity<>("USER WITH ID \""+userId+"\" WAS NOT REGISTERED", HttpStatus.BAD_REQUEST);	;
 		
