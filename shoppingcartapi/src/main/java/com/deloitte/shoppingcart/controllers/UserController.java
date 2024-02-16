@@ -13,6 +13,8 @@ import com.deloitte.shoppingcart.repos.UserRepository;
 @RequestMapping("/api")
 public class UserController {
 	
+	/////////////////////////////////---START SET UP---/////////////////////////////////
+
 	private UserRepository userRepository;
 	private OrderController orderController;
 	
@@ -21,6 +23,11 @@ public class UserController {
 		this.orderController = orderController;
 	}
 	
+	/////////////////////////////////---END SET UP---/////////////////////////////////
+
+	
+	/////////////////////////////////---START GET OPERATIONS---/////////////////////////////////
+
 	@GetMapping("/users")
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
@@ -41,6 +48,11 @@ public class UserController {
 		return userRepository.findByEmail(email);
 	}
 	
+	/////////////////////////////////---END GET OPERATIONS---/////////////////////////////////
+
+	
+	/////////////////////////////////---START PATCH OPERATIONS---/////////////////////////////////
+
 	@PatchMapping("users/{userId}")
 	public ResponseEntity<String> updateUser(
 			@PathVariable("userId") int userId,
@@ -76,6 +88,11 @@ public class UserController {
 		return result;
 	}
 	
+	/////////////////////////////////---END PATCH OPERATIONS---/////////////////////////////////
+
+	
+	/////////////////////////////////---START POST OPERATIONS---/////////////////////////////////
+
 	@PostMapping("/users")
 	public ResponseEntity<String> saveUser(@RequestBody User user) {
 
@@ -93,7 +110,12 @@ public class UserController {
 		
 		return result;
 	}
+	
+	/////////////////////////////////---END POST OPERATIONS---/////////////////////////////////
+
 		
+	/////////////////////////////////---START DELETE OPERATIONS---/////////////////////////////////
+
 	@DeleteMapping("/users/delete/{userId}")
 	public ResponseEntity<String> deleteUserAndClearOrderHistory(@PathVariable("userId") int userId){
 		
@@ -108,7 +130,8 @@ public class UserController {
 		return result;
 		
 	}
-
 	
+	/////////////////////////////////---END DELETE OPERATIONS---/////////////////////////////////
+
 
 }

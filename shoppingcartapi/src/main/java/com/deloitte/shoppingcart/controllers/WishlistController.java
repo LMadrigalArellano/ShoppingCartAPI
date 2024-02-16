@@ -17,11 +17,16 @@ import com.deloitte.shoppingcart.repos.WishlistRepository;
 @RequestMapping("/api")
 public class WishlistController {
 
+	/////////////////////////////////---START SET UP---/////////////////////////////////
+
 	private WishlistRepository wishlistRepository;
 	
 	WishlistController(WishlistRepository wishlistRepository){
 		this.wishlistRepository = wishlistRepository;
 	}
+	
+	/////////////////////////////////---END SET UP---/////////////////////////////////
+
 	
 	/////////////////////////////////---START GET OPERATIONS---/////////////////////////////////
 

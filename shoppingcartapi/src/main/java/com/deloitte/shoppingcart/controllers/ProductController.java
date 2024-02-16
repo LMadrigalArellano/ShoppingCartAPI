@@ -21,12 +21,19 @@ import com.deloitte.shoppingcart.repos.ProductRepository;
 @RequestMapping("/api")
 public class ProductController {
 	
+	/////////////////////////////////---START SET UP---/////////////////////////////////
+
 	private ProductRepository productRepository;
 	
 	ProductController(ProductRepository productRepository){
 		this.productRepository = productRepository;
 	}
 	
+	/////////////////////////////////---END SET UP---/////////////////////////////////
+	
+	
+	/////////////////////////////////---START GET OPERATIONS---/////////////////////////////////
+
 	@GetMapping("/products")
 	public List<Product> getAllProducts(){
 		return productRepository.findAll();
@@ -47,6 +54,23 @@ public class ProductController {
 		return productRepository.findByPriceRange(minPrice, maxPrice);
 	}
 	
+	/////////////////////////////////---END GET OPERATIONS---/////////////////////////////////
+
+	/////////////////////////////////---START PATCH OPERATIONS---/////////////////////////////////
+	
+//	@PatchMapping("/products/buy/{productId}")
+//	public void buyProductById(@PathVariable("productId") int productId, @RequestBody Order order) {
+//		Optional<Product> productInDB = getProductById(productId);
+//		
+//		if(productInDB.isPresent()) {
+//			Product existingProduct = productInDB.get();
+//			existingProduct.setTotalProductsInventory(existingProduct.getTotalProductsInventory() - 1);
+//			productRepository.save(existingProduct);
+//			
+//			order
+//		}
+//	}
+
 	@PatchMapping("/products/delete/{productId}")
 	public ResponseEntity<String> deleteProduct(@PathVariable("productId") int productId){
 		ResponseEntity<String> result =  new ResponseEntity<>("PRODUCT WITH ID \""+productId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);;
@@ -83,6 +107,11 @@ public class ProductController {
 		return result;
 	}
 	
+	/////////////////////////////////---END PATCH OPERATIONS---/////////////////////////////////
+
+	
+	/////////////////////////////////---START POST OPERATIONS---/////////////////////////////////
+
 	@PostMapping("/products")
 	public ResponseEntity<String> saveProduct(@RequestBody Product product) {
 		
@@ -103,6 +132,9 @@ public class ProductController {
 		
 		return result;
 	}
+	
+	/////////////////////////////////---END POST OPERATIONS---/////////////////////////////////
+
 
 }
 

@@ -6,11 +6,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.deloitte.shoppingcart.model.Product;
 
-@Component
+@Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
 	@Query("FROM Product WHERE name = :name")
