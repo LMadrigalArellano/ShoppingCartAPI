@@ -1,7 +1,5 @@
 package com.deloitte.shoppingcart.model;
 
-import java.sql.Timestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,37 +8,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ORDER_HISTORY")
-public class Order {
+@Table(name = "WISHLIST")
+public class Wishlist {
 	
 	@Id
-	@Column(name = "ORDER_ID", nullable = false, precision = 10)
+	@Column(name = "WISH_ID", nullable = false, precision = 10)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int orderId;
-	
-	@Column(name = "ORDER_DATE", nullable = false)
-	private Timestamp orderDate;
+	private int wishId;
 	
 	@Column(name = "USER_ID", precision = 10)
 	private int userId;
 	
 	@Column(name = "PRODUCT_ID", precision = 10)
 	private int productId;
-	
-	public int getOrderId() {
-		return orderId;
+
+	public int getWishId() {
+		return wishId;
 	}
 
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
-	}
-
-	public Timestamp getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(Timestamp orderDate) {
-		this.orderDate = orderDate;
+	public void setWishId(int wishId) {
+		this.wishId = wishId;
 	}
 
 	public int getUserId() {
@@ -58,6 +45,5 @@ public class Order {
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
-	
 
 }
