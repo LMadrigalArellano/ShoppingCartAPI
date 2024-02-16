@@ -53,6 +53,11 @@ public class WishlistController {
 		wishlistRepository.deleteProductFromWishlist(productId);
 	}
 	
+	@DeleteMapping("/wishlists")
+	public void clearList() {
+		wishlistRepository.deleteAll();
+	}
+	
 	/////////////////////////////////---END DELETE OPERATIONS---/////////////////////////////////
 
 
