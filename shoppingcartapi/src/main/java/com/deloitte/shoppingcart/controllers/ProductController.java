@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.deloitte.shoppingcart.exception.Product.ProductNotFoundException;
 import com.deloitte.shoppingcart.model.Product;
 import com.deloitte.shoppingcart.repos.ProductRepository;
 
@@ -41,7 +42,14 @@ public class ProductController {
 	
 	@GetMapping("/products/{productId}")
 	public Optional<Product> getProductById(@PathVariable("productId") Long productId){
-		return productRepository.findById(productId);
+		
+		Optional<Product> product = productRepository.findById(productId);
+		
+		if(product.isEmpty()) {
+			throw new ProductNotFoundException("PRODUCT WITH ID '"+productId+"' NOT FOUND");
+		}
+		
+		return product;	
 	}
 	
 	@GetMapping("/products/name/{name}")

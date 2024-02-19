@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.deloitte.shoppingcart.exception.User.UserNotFoundException;
 import com.deloitte.shoppingcart.model.User;
 import com.deloitte.shoppingcart.repos.UserRepository;
 
@@ -35,7 +37,15 @@ public class UserController {
 	
 	@GetMapping("/users/{userId}")
 	public Optional<User> getUserById(@PathVariable("userId") Long userId) {
-		return userRepository.findById(userId);
+		
+		Optional<User> user = userRepository.findById(userId);
+		
+		if(user.isEmpty()) {
+			throw new UserNotFoundException("USER WITH ID '"+userId+"' NOT FOUND");
+		}
+		
+		return user;
+		
 	}
 	
 	@GetMapping("/users/name/{name}")
@@ -63,7 +73,7 @@ public class UserController {
 		boolean isNewEmailAvailable = getUserByEmail(newUser.getEmail()).isEmpty();
 		
 		if(userInDB.isEmpty()) {
-			result = new ResponseEntity<>("USER WITH ID \""+userId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);	
+			throw new UserNotFoundException("USER WITH ID '"+userId+"' NOT FOUND");
 			
 		} else {
 			
@@ -125,6 +135,8 @@ public class UserController {
 			orderController.deleteOrdersByUserId(userId);
 			userRepository.deleteById(userId);
 			result = new ResponseEntity<>("USER WITH ID \""+userId+"\" DELETED", HttpStatus.OK);	
+		} else {
+			throw new UserNotFoundException("USER WITH ID '"+userId+"' NOT FOUND");
 		}
 		
 		return result;
