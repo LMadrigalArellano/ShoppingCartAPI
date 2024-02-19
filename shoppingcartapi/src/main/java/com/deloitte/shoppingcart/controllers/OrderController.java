@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.deloitte.shoppingcart.exception.Order.OrderNotFoundException;
 import com.deloitte.shoppingcart.exception.Product.ProductNotFoundException;
 import com.deloitte.shoppingcart.exception.User.UserNotFoundException;
 import com.deloitte.shoppingcart.model.Order;
@@ -92,7 +93,6 @@ public class OrderController {
 
 	
 	
-	
 	/////////////////////////////////---START DELETE OPERATIONS---/////////////////////////////////
 
 	@DeleteMapping("/orders/delete/{orderId}")
@@ -101,7 +101,8 @@ public class OrderController {
 		ResponseEntity<String> result = new ResponseEntity<>("ORDER WITH ID \""+orderId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);	
 
 		if(orderRepository.findById(orderId).isEmpty()) {
-			result = new ResponseEntity<>("NO RECORD OF ORDER WITH ID \""+orderId+"\"", HttpStatus.BAD_REQUEST);
+			
+			throw new OrderNotFoundException("ORDER WITH ID '"+orderId+"' NOT FOUND");
 			
 		} else {
 			try {

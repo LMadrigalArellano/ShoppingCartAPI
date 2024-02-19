@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.deloitte.shoppingcart.exception.Order.OrderNotFoundException;
 import com.deloitte.shoppingcart.exception.Product.ProductNotFoundException;
 import com.deloitte.shoppingcart.exception.User.UserAlreadyExistsException;
 import com.deloitte.shoppingcart.exception.User.UserNotFoundException;
@@ -67,5 +68,20 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	}
 	
 	/////////////////////////////////---END USER HANDLERS---/////////////////////////////////
+	
+	/////////////////////////////////---START ORDER HANDLERS---/////////////////////////////////
+	@ExceptionHandler(OrderNotFoundException.class)
+	public final ResponseEntity<ErrorDetails> handleOrderNotFoundException(Exception ex, WebRequest request) throws Exception {
+		ErrorDetails errorDetails = new ErrorDetails(
+											LocalDateTime.now(), 
+											ex.getMessage(),
+											request.getDescription(false)
+										);
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
+		
+	}
+	/////////////////////////////////---END ORDER HANDLERS---/////////////////////////////////
+
+
 
 }
