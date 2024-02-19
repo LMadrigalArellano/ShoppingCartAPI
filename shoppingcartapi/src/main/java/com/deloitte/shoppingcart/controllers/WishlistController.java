@@ -65,8 +65,4 @@ public class WishlistController {
 	
 	/////////////////////////////////---END DELETE OPERATIONS---/////////////////////////////////
 
-
-	
-	
-	
 }

@@ -10,6 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.deloitte.shoppingcart.exception.Product.ProductNotFoundException;
+import com.deloitte.shoppingcart.exception.User.UserAlreadyExistsException;
 import com.deloitte.shoppingcart.exception.User.UserNotFoundException;
 
 @ControllerAdvice
@@ -51,6 +52,17 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 											request.getDescription(false)
 										);
 		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@ExceptionHandler(UserAlreadyExistsException.class)
+	public final ResponseEntity<ErrorDetails> handleUserAlreadyExistsFoundException(Exception ex, WebRequest request) throws Exception {
+		ErrorDetails errorDetails = new ErrorDetails(
+											LocalDateTime.now(), 
+											ex.getMessage(),
+											request.getDescription(false)
+										);
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.CONFLICT);
 		
 	}
 	

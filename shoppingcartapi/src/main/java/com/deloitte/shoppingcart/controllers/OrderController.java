@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.deloitte.shoppingcart.exception.Product.ProductNotFoundException;
+import com.deloitte.shoppingcart.exception.User.UserNotFoundException;
 import com.deloitte.shoppingcart.model.Order;
 import com.deloitte.shoppingcart.model.Product;
 import com.deloitte.shoppingcart.repos.OrderRepository;
@@ -79,6 +81,8 @@ public class OrderController {
 				result = new ResponseEntity<>("\""+existingProduct.getName()+"\" ACQUIRED" + "\nAMOUNT: "+productAmount, HttpStatus.OK);
 			}			
 			
+		} else {
+			throw new ProductNotFoundException("PRODUCT WITH ID '"+productId+"' NOT FOUND");
 		}
 		
 		return result;
@@ -94,12 +98,12 @@ public class OrderController {
 	@DeleteMapping("/orders/delete/{orderId}")
 	public ResponseEntity<String> deleteOrderById(@PathVariable("orderId") Long orderId){
 		
-		ResponseEntity<String> result = new ResponseEntity<>("USER WITH ID \""+orderId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);	
+		ResponseEntity<String> result = new ResponseEntity<>("ORDER WITH ID \""+orderId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);	
 
 		if(orderRepository.findById(orderId).isEmpty()) {
 			result = new ResponseEntity<>("NO RECORD OF ORDER WITH ID \""+orderId+"\"", HttpStatus.BAD_REQUEST);
 			
-		}else {
+		} else {
 			try {
 				orderRepository.deleteById(orderId);
 				result = new ResponseEntity<>("ORDER WITH ID \""+orderId+"\" DELETED", HttpStatus.OK);	
@@ -131,6 +135,9 @@ public class OrderController {
 				
 				result = new ResponseEntity<>("ORDERS FROM USER \""+userId+"\" DELETED", HttpStatus.OK);
 			}
+		} else {
+			throw new UserNotFoundException("USER WITH ID '"+userId+"' NOT FOUND");
+
 		}
 		
 		return result;

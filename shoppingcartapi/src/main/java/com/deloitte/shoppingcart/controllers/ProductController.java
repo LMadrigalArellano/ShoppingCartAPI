@@ -86,7 +86,7 @@ public class ProductController {
 			@PathVariable("productId") Long productId, 
 			@RequestBody Product product
 	){
-		ResponseEntity<String> result =  new ResponseEntity<>("PRODUCT WITH ID \""+productId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);;
+		ResponseEntity<String> result =  new ResponseEntity<>("PRODUCT WITH ID \""+productId+"\" DOES NOT EXIST", HttpStatus.NOT_FOUND);
 		Optional<Product> productInDB = getProductById(productId);
 		
 		if(productInDB.isPresent()) {
@@ -97,6 +97,8 @@ public class ProductController {
 			existingProduct.setTotalProductsInventory(product.getTotalProductsInventory());
 			productRepository.save(existingProduct);
 			result = new ResponseEntity<>("PRODUCT WITH ID \""+productId+"\" UPDATED", HttpStatus.OK);	
+		} else {
+			throw new ProductNotFoundException("PRODUCT WITH ID '"+productId+"' NOT FOUND");
 		}
 		
 		return result;

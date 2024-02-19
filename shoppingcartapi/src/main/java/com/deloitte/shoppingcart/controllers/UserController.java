@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.deloitte.shoppingcart.exception.User.UserAlreadyExistsException;
 import com.deloitte.shoppingcart.exception.User.UserNotFoundException;
 import com.deloitte.shoppingcart.model.User;
 import com.deloitte.shoppingcart.repos.UserRepository;
@@ -55,7 +56,14 @@ public class UserController {
 	
 	@GetMapping("/users/email/{email}")
 	public Optional<User> getUserByEmail(@PathVariable("email") String email) {
-		return userRepository.findByEmail(email);
+		
+		Optional<User> user = userRepository.findByEmail(email);
+		
+		if(user.isEmpty()) {
+			throw new UserNotFoundException("USER WITH EMAIL '"+email+"' NOT FOUND");
+		}
+		
+		return user;
 	}
 	
 	/////////////////////////////////---END GET OPERATIONS---/////////////////////////////////
@@ -90,8 +98,8 @@ public class UserController {
 					userRepository.save(user);
 				});	
 			} else {
-				result = new ResponseEntity<>("THE EMAIL \""+newUser.getEmail()+"\" IS ALREADY REGISTERED", HttpStatus.CONFLICT);
 				
+				throw new UserAlreadyExistsException("THE EMAIL \""+newUser.getEmail()+"\" IS ALREADY REGISTERED");	
 			}
 		}
 
@@ -114,7 +122,7 @@ public class UserController {
 			userRepository.save(user);
 			
 		}else {
-			result = new ResponseEntity<>("THE EMAIL \""+user.getEmail()+"\" IS ALREADY REGISTERED", HttpStatus.CONFLICT);
+			throw new UserAlreadyExistsException("THE EMAIL '"+user.getEmail()+"' IS ALREADY REGISTERED");
 			
 		}
 		
